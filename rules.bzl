@@ -25,6 +25,11 @@ export PATH="{bats_bins_path}":$PATH
 """
 
 
+  print("path={path}; tests={tests}; bats={bats}".format(
+    path=path,
+    tests=tests,
+    bats=ctx.executable._bats.short_path,
+  ))
   content = BASH_TEMPLATE.format(
       bats = ctx.executable._bats.short_path,
       test_paths = " ".join(tests),
@@ -37,6 +42,7 @@ export PATH="{bats_bins_path}":$PATH
   )
 
   runfiles = runfiles.merge(ctx.attr._bats.default_runfiles)
+  print("runfiles={runfiles}".format(runfiles=runfiles))
 
   return DefaultInfo(
       runfiles = runfiles,

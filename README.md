@@ -5,10 +5,20 @@
 In your `WORKSPACE` file load and include as follows:
 
 ```
-# Based on the work from:
-# https://jayconrod.com/posts/106/writing-bazel-rules--simple-binary-rule
-load("//:deps.bzl", "bazel_bats_dependencies")
+# Make the rule "git_archive" available.
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_archive")
 
+# Make the external repo "bazel_bats" available.
+git_repository(
+  name = "bazel_bats",
+  remote = "https://github.com/filmil/bazel-bats",
+  tag = "v0.1.1",
+)
+
+# Load the declaration "bazel_bats_dependencide"
+load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
+
+# version can be omitted, in which case the default is used.
 bazel_bats_dependencies(version="v1.1.0")
 ```
 
