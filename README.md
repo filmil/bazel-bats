@@ -5,8 +5,8 @@
 In your `WORKSPACE` file load and include as follows:
 
 ```
-# Make the rule "git_archive" available.
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_archive")
+# Make the rule "git_repository" available.
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 # Make the external repo "bazel_bats" available.
 git_repository(
