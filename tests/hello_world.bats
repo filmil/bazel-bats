@@ -9,3 +9,7 @@
   [ "${PROGRAM}" == "hello_world" ]
 }
 
+@test "Test program name with location" {
+  echo "Location: ${LOCATED}"
+  [ "${LOCATED}" == "tests/dummy.txt" ]
+}
