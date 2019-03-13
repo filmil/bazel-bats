@@ -5,3 +5,7 @@
   [ "$result" -eq 4 ]
 }
 
+@test "Test program name" {
+  [ "${PROGRAM}" == "hello_world" ]
+}
+

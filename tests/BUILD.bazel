@@ -3,6 +3,9 @@ load("@bazel_bats//:rules.bzl", "bats_test")
 bats_test(
   name = "hello_world_test",
   srcs = ["hello_world.bats"],
+  env = {
+      "PROGRAM": "hello_world",
+  },
 )
 
 bats_test(
@@ -26,3 +29,4 @@ bats_test(
     "hello_world_2.bats",
   ],
 )
+
