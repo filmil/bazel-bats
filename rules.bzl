@@ -14,7 +14,7 @@ def _bats_test_impl(ctx):
   tests = ["\"{}\"".format(f.short_path) for f in ctx.files.srcs]
   path = ["$PWD/" + _dirname(b.short_path) for b in ctx.files.deps]
   l = ['export {}="{}"'.format(
-        key, ctx.expand_location(val, ctx.files.deps)) for key, val in ctx.attr.env.items()]
+        key, ctx.expand_location(val, ctx.attr.deps)) for key, val in ctx.attr.env.items()]
   env = "\n".join(l)
 
   sep = ctx.configuration.host_path_separator
