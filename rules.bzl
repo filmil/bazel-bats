@@ -32,9 +32,9 @@ export PATH="{bats_bins_path}":$PATH
       env=env,
       test_paths = " ".join(tests),
   )
-  ctx.file_action(
+  ctx.actions.write(
       output = ctx.outputs.executable,
-      executable = True,
+      is_executable = True,
       content = content,
   )
   runfiles = runfiles.merge(ctx.attr._bats.default_runfiles)
