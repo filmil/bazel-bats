@@ -19,6 +19,18 @@ sh_library(
 )
 
 bats_test(
+  name = "expected_failure",
+  srcs = ["expected_failure.bats"],
+  tags = ["manual"],
+)
+
+sh_test(
+  name = "expected_failure_test",
+  srcs = ["run_expected_failures.sh"],
+  data = [":expected_failure"],
+)
+
+bats_test(
   name = "hello_world_load_test",
   srcs = ["hello_world_load.bats"],
   deps = [":helper"],
