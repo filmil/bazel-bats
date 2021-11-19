@@ -25,6 +25,12 @@ bats_test(
 )
 
 bats_test(
+  name = "hello_world_data_test",
+  srcs = ["hello_world_data.bats"],
+  data = ["testdata/golden_4.txt"],
+)
+
+bats_test(
   name = "hello_world_test",
   srcs = ["hello_world.bats"],
   env = {
