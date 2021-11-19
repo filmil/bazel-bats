@@ -1,8 +1,21 @@
 load("@bazel_bats//:rules.bzl", "bats_test")
 
+sh_binary(
+  name = "exit_with_input_bin",
+  srcs = ["exit_with_input"],
+)
+
+bats_test(
+  name = "exit_with_input_test",
+  srcs = ["exit_with_input.bats"],
+  deps = [
+      ":exit_with_input_bin",
+  ],
+)
+
 sh_library(
-    name = "helper",
-    srcs = ["helper.bash"],
+  name = "helper",
+  srcs = ["helper.bash"],
 )
 
 bats_test(
