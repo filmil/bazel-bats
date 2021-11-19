@@ -1,4 +1,4 @@
-# From: 
+# From:
 # https://stackoverflow.com/questions/47192668/idiomatic-retrieval-of-the-bazel-execution-path#
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
 
@@ -16,7 +16,7 @@ sh_binary(
 )
 """
 
-def bazel_bats_dependencies(version="v1.1.0"):
+def bazel_bats_dependencies(version="v1.5.0"):
     new_git_repository(
         name = "bats_core",
         remote = "https://github.com/bats-core/bats-core",

@@ -21,7 +21,7 @@ git_repository(
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
 # version can be omitted, in which case the default is used.
-bazel_bats_dependencies(version="v1.1.0")
+bazel_bats_dependencies(version="v1.5.0")
 ```
 
 In your `BUILD.bazel` file add the following:
