@@ -32,6 +32,7 @@ def _bats_test_impl(ctx):
   )
   runfiles = ctx.runfiles(
       files = ctx.files.srcs,
+      transitive_files = depset(ctx.files.data),
       collect_data = True,
   ).merge(ctx.attr._bats.default_runfiles)
   return [DefaultInfo(runfiles = runfiles)]
@@ -40,6 +41,7 @@ def _bats_test_impl(ctx):
 bats_test = rule(
     _bats_test_impl,
     attrs = {
+      "data": attr.label_list(allow_files = True),
       "deps": attr.label_list(),
       "env": attr.string_dict(
           doc = "A list of key-value pairs of environment variables to define",
