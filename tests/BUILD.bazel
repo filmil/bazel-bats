@@ -1,5 +1,16 @@
 load("@bazel_bats//:rules.bzl", "bats_test")
 
+sh_library(
+    name = "helper",
+    srcs = ["helper.bash"],
+)
+
+bats_test(
+  name = "hello_world_load_test",
+  srcs = ["hello_world_load.bats"],
+  deps = [":helper"],
+)
+
 bats_test(
   name = "hello_world_test",
   srcs = ["hello_world.bats"],
