@@ -4,4 +4,4 @@ workspace(name = "bazel_bats")
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
-bazel_bats_dependencies(version="v1.5.0")
+bazel_bats_dependencies()
