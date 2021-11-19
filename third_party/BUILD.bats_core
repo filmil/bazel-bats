@@ -1,0 +1,11 @@
+sh_library(
+  name = "bats_lib",
+  srcs = glob(["libexec/**"]),
+)
+
+sh_binary(
+  name = "bats",
+  srcs = ["bin/bats"],
+  deps = [":bats_lib"],
+  visibility = ["//visibility:public"],
+)
