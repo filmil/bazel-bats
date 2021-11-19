@@ -1,0 +1,38 @@
+load("@bazel_bats//:rules.bzl", "bats_test")
+
+bats_test(
+  name = "hello_world_test",
+  srcs = ["hello_world.bats"],
+  env = {
+      "PROGRAM": "hello_world",
+      "LOCATED": "$(location :dummy)",
+  },
+  deps = [":dummy"],
+)
+
+bats_test(
+  name = "hello_world_twofiles_test",
+  srcs = [
+    "hello_world_1.bats",
+    "hello_world_2.bats",
+  ],
+)
+
+bats_test(
+  name = "hello_world_twofiles_1_test",
+  srcs = [
+    "hello_world_1.bats",
+  ],
+)
+
+bats_test(
+  name = "hello_world_twofiles_2_test",
+  srcs = [
+    "hello_world_2.bats",
+  ],
+)
+
+filegroup(
+  name = "dummy",
+  srcs = ["dummy.txt"],
+)
