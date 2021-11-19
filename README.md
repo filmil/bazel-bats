@@ -1,6 +1,8 @@
 # bazel-bats: bazel test rules for the BATS testing framework (bats-core)
 
-![Build Status](https://github.com/filmil/bazel-bats/workflows/Build/badge.svg) | ![Build Status](https://github.com/filmil/bazel-bats/workflows/Test/badge.svg)
+![Build Status](https://github.com/jmelahman/bazel-bats/workflows/Build/badge.svg) |
+ ![Test Status](https://github.com/jmelahman/bazel-bats/workflows/Test/badge.svg) |
+ ![Integration Status](https://github.com/jmelahman/bazel-bats/workflows/Integration/badge.svg)
 
 ## Usage
 
