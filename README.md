@@ -63,3 +63,8 @@ bazel test //...
 
 Feel free to take a look at the `WORKSPACE` file to see how your workspace file
 should look like and at `tests/BUILD.bazel` to see a sample build file.
+
+To run the integration tests, change to the `integration/` directory and run,
+```console
+bazel test //...
+```
