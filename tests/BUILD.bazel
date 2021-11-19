@@ -1,80 +1,80 @@
 load("@bazel_bats//:rules.bzl", "bats_test")
 
 sh_binary(
-  name = "exit_with_input_bin",
-  srcs = ["exit_with_input"],
+    name = "exit_with_input_bin",
+    srcs = ["exit_with_input"],
 )
 
 bats_test(
-  name = "exit_with_input_test",
-  srcs = ["exit_with_input.bats"],
-  deps = [
-      ":exit_with_input_bin",
-  ],
+    name = "exit_with_input_test",
+    srcs = ["exit_with_input.bats"],
+    deps = [
+        ":exit_with_input_bin",
+    ],
 )
 
 sh_library(
-  name = "helper",
-  srcs = ["helper.bash"],
+    name = "helper",
+    srcs = ["helper.bash"],
 )
 
 bats_test(
-  name = "expected_failure",
-  srcs = ["expected_failure.bats"],
-  tags = ["manual"],
+    name = "expected_failure",
+    srcs = ["expected_failure.bats"],
+    tags = ["manual"],
 )
 
 sh_test(
-  name = "expected_failure_test",
-  srcs = ["run_expected_failures.sh"],
-  data = [":expected_failure"],
+    name = "expected_failure_test",
+    srcs = ["run_expected_failures.sh"],
+    data = [":expected_failure"],
 )
 
 bats_test(
-  name = "hello_world_load_test",
-  srcs = ["hello_world_load.bats"],
-  deps = [":helper"],
+    name = "hello_world_load_test",
+    srcs = ["hello_world_load.bats"],
+    deps = [":helper"],
 )
 
 bats_test(
-  name = "hello_world_data_test",
-  srcs = ["hello_world_data.bats"],
-  data = ["testdata/golden_4.txt"],
+    name = "hello_world_data_test",
+    srcs = ["hello_world_data.bats"],
+    data = ["testdata/golden_4.txt"],
 )
 
 bats_test(
-  name = "hello_world_test",
-  srcs = ["hello_world.bats"],
-  env = {
-      "PROGRAM": "hello_world",
-      "LOCATED": "$(location :dummy)",
-  },
-  deps = [":dummy"],
+    name = "hello_world_test",
+    srcs = ["hello_world.bats"],
+    env = {
+        "PROGRAM": "hello_world",
+        "LOCATED": "$(location :dummy)",
+    },
+    deps = [":dummy"],
 )
 
 bats_test(
-  name = "hello_world_twofiles_test",
-  srcs = [
-    "hello_world_1.bats",
-    "hello_world_2.bats",
-  ],
+    name = "hello_world_twofiles_test",
+    srcs = [
+        "hello_world_1.bats",
+        "hello_world_2.bats",
+    ],
 )
 
 bats_test(
-  name = "hello_world_twofiles_1_test",
-  srcs = [
-    "hello_world_1.bats",
-  ],
+    name = "hello_world_twofiles_1_test",
+    srcs = [
+        "hello_world_1.bats",
+    ],
 )
 
 bats_test(
-  name = "hello_world_twofiles_2_test",
-  srcs = [
-    "hello_world_2.bats",
-  ],
+    name = "hello_world_twofiles_2_test",
+    srcs = [
+        "hello_world_2.bats",
+    ],
 )
 
 filegroup(
-  name = "dummy",
-  srcs = ["dummy.txt"],
+    name = "dummy",
+    srcs = ["dummy.txt"],
 )

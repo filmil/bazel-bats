@@ -3,10 +3,12 @@ workspace(name = "bazel_bats_integration")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 BAZEL_BATS_VERSION = "0.29.1"
+
 HEAD = "75dea0bc4d15d48a4238ad2143e998509c0cb3e4"
 
 http_archive(
     name = "bazel_bats",
+    sha256 = "e57d61da26bbb5428e8162da4fa2432d85abc2530b6211dd2d096d75be18d9fb",
     # TODO: Tag and release HEAD.
     # strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
     strip_prefix = "bazel-bats-%s" % HEAD,
@@ -15,12 +17,11 @@ http_archive(
         # "https://github.com/jmelahman/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
         "https://github.com/jmelahman/bazel-bats/archive/%s.tar.gz" % HEAD,
     ],
-    sha256 = "e57d61da26bbb5428e8162da4fa2432d85abc2530b6211dd2d096d75be18d9fb",
 )
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
 bazel_bats_dependencies(
-  version="1.5.0",
-  sha256="36a3fd4413899c0763158ae194329af8f48bb1ff0d1338090b80b3416d5793af"
+    sha256 = "36a3fd4413899c0763158ae194329af8f48bb1ff0d1338090b80b3416d5793af",
+    version = "1.5.0",
 )
