@@ -1,0 +1,63 @@
+load("@bazel_bats//:rules.bzl", "bats_test")
+
+bats_test(
+    name = "file_setup_teardown_test",
+    srcs = ["@bats_core//:test/file_setup_teardown.bats"],
+    deps = [
+        "@bats_core//:file_setup_teardown_lib",
+        "@bats_core//:test_helper",
+    ],
+)
+
+bats_test(
+    name = "junit_formatter_test",
+    srcs = ["@bats_core//:test/junit-formatter.bats"],
+    deps = [
+        "@bats_core//:junit_formatter_lib",
+        "@bats_core//:test_helper",
+    ],
+)
+
+bats_test(
+    name = "parallel_test",
+    srcs = ["@bats_core//:test/parallel.bats"],
+    deps = [
+        "@bats_core//:parallel_lib",
+        "@bats_core//:test_helper",
+    ],
+)
+
+bats_test(
+    name = "pretty_formatter_test",
+    srcs = ["@bats_core//:test/pretty-formatter.bats"],
+    env = {
+        "TERM": "linux",
+    },
+)
+
+bats_test(
+    name = "run_test",
+    srcs = ["@bats_core//:test/run.bats"],
+    deps = [
+        "@bats_core//:run_lib",
+        "@bats_core//:test_helper",
+    ],
+)
+
+bats_test(
+    name = "suite_test",
+    srcs = ["@bats_core//:test/suite.bats"],
+    deps = [
+        "@bats_core//:suite_lib",
+        "@bats_core//:test_helper",
+    ],
+)
+
+bats_test(
+    name = "trace_test",
+    srcs = ["@bats_core//:test/trace.bats"],
+    deps = [
+        "@bats_core//:test_helper",
+        "@bats_core//:trace_lib",
+    ],
+)
