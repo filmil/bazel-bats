@@ -12,21 +12,16 @@ In your `WORKSPACE` file load and include as follows:
 # Make the rule "http_archive" available.
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-BAZEL_BATS_VERSION = "0.29.1"
-HEAD = "75dea0bc4d15d48a4238ad2143e998509c0cb3e4"
+BAZEL_BATS_VERSION = "1.0.0"
 
 # Make the external repo "bazel_bats" available.
 http_archive(
     name = "bazel_bats",
-    # TODO: Tag and release HEAD.
-    # strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
-    strip_prefix = "bazel-bats-%s" % HEAD,
+    strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
     urls = [
-        # TODO: Tag and release HEAD.
-        # "https://github.com/jmelahman/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
-        "https://github.com/jmelahman/bazel-bats/archive/%s.tar.gz" % HEAD,
+        "https://github.com/jmelahman/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
     ],
-    sha256 = "e57d61da26bbb5428e8162da4fa2432d85abc2530b6211dd2d096d75be18d9fb",
+    sha256 = "1d79f0837ffd782170c8b0d3d649e414507a2ab4b6b2236b5b0102557d3b4afb",
 )
 
 # Load the function "bazel_bats_dependencide"
