@@ -29,8 +29,8 @@ load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
 # version and sha256 can be omitted, in which case the default is used.
 bazel_bats_dependencies(
-  version="1.5.0",
-  sha256="36a3fd4413899c0763158ae194329af8f48bb1ff0d1338090b80b3416d5793af"
+    version = "1.5.0",
+    sha256 = "36a3fd4413899c0763158ae194329af8f48bb1ff0d1338090b80b3416d5793af"
 )
 ```
 
