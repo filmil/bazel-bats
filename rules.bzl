@@ -46,7 +46,7 @@ bats_test = rule(
       ),
       "srcs": attr.label_list(
           allow_files = [".bats"],
-          doc = "Source files to run a bats test on",
+          doc = "Source files to run a BATS test on",
       ),
       "_bats": attr.label(
          default = Label("@bats_core//:bats"),
