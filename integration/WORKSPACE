@@ -4,11 +4,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 BAZEL_BATS_VERSION = "0.29.1"
 
-HEAD = "75dea0bc4d15d48a4238ad2143e998509c0cb3e4"
+HEAD = "9ea10a4638ca49e26e779d01efafbf3a25ee5215"
 
 http_archive(
     name = "bazel_bats",
-    sha256 = "e57d61da26bbb5428e8162da4fa2432d85abc2530b6211dd2d096d75be18d9fb",
+    sha256 = "7633d79b3dfa52a3b822129c44b5ed83ab3b6dbb520056b7a3d0366177673d1d",
     # TODO: Tag and release HEAD.
     # strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
     strip_prefix = "bazel-bats-%s" % HEAD,
