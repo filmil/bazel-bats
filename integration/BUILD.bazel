@@ -39,10 +39,7 @@ bats_test(
 bats_test(
     name = "hello_world_data_test",
     srcs = ["hello_world_data.bats"],
-    # TODO: Test depends on https://github.com/filmil/bazel-bats/pull/4.
-    # Remove 'manual' tag and uncomment 'data' once that is merged.
-    # data = ["testdata/golden_4.txt"],
-    tags = ["manual"],
+    data = ["testdata/golden_4.txt"],
 )
 
 bats_test(
