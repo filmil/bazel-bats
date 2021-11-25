@@ -9,12 +9,10 @@
 In your `WORKSPACE` file load and include as follows:
 
 ```
-# Make the rule "http_archive" available.
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 BAZEL_BATS_VERSION = "0.29.1"
 
-# Make the external repo "bazel_bats" available.
 http_archive(
     name = "bazel_bats",
     strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
@@ -24,7 +22,6 @@ http_archive(
     sha256 = "94aea504205cee5f00d9182975a95a5dadf1747fecb75f7d93e09cccc1c19803",
 )
 
-# Load the function "bazel_bats_dependencide"
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
 # 'version' and 'sha256' of bats-core can be provided to override the version of v1.1.0.
