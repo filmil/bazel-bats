@@ -13,6 +13,15 @@ bats_test(
     ],
 )
 
+bats_test(
+    name = "exit_with_input_bats_assert_test",
+    srcs = ["exit_with_input_bats_assert.bats"],
+    deps = [
+        ":exit_with_input_bin",
+    ],
+    uses_bats_assert = True,
+)
+
 sh_library(
     name = "helper",
     srcs = ["helper.bash"],
