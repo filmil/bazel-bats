@@ -92,7 +92,7 @@ filegroup(
 
 def bazel_bats_dependencies(
     version = "1.7.0",
-    sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
+    sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e",
     bats_assert_version = None,
     bats_assert_sha256 = None,
     bats_support_version = None,
