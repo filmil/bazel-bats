@@ -28,6 +28,7 @@ setup() {
   run "${PATH_TO_EXIT_WITH_INPUT}" 1
 
   assert_failure
+  assert_failure 1
   refute_output
 }
 
@@ -35,6 +36,7 @@ setup() {
   run "${PATH_TO_EXIT_WITH_INPUT}" 1 'some message'
 
   assert_failure
+  assert_failure 1
   assert_output --partial 'Given for output:'
   assert_output --partial 'some message'
   assert_output --regexp '^Given for output: some message$'
@@ -44,6 +46,7 @@ setup() {
 @test "can run failing executable with different return code" {
   run "${PATH_TO_EXIT_WITH_INPUT}" 2
 
+  assert_failure
   assert_failure 2
   refute_output
 }
@@ -51,6 +54,7 @@ setup() {
 @test "can run failing executable with different return code with output" {
   run "${PATH_TO_EXIT_WITH_INPUT}" 2 'some message'
 
+  assert_failure
   assert_failure 2
   assert_output --partial 'Given for output:'
   assert_output --partial 'some message'
