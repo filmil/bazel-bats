@@ -22,6 +22,7 @@ setup() {
   assert_output --partial 'some message'
   assert_output --regexp '^Given for output: some message$'
   assert_output 'Given for output: some message'
+  refute_output 'never printed'
 }
 
 @test "can run failing executable" {
@@ -41,6 +42,7 @@ setup() {
   assert_output --partial 'some message'
   assert_output --regexp '^Given for output: some message$'
   assert_output 'Given for output: some message'
+  refute_output 'never printed'
 }
 
 @test "can run failing executable with different return code" {
@@ -60,4 +62,5 @@ setup() {
   assert_output --partial 'some message'
   assert_output --regexp '^Given for output: some message$'
   assert_output 'Given for output: some message'
+  refute_output 'never printed'
 }
