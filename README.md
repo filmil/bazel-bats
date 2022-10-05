@@ -11,7 +11,8 @@ In your `WORKSPACE` file load and include as follows:
 ```
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-BAZEL_BATS_VERSION = "0.29.1"
+BAZEL_BATS_VERSION = "0.30.0"
+BAZEL_BATS_SHA256 = "9ae647d2db3aa0bd36af84a0a864dce1c4a1c4f7207b240d3a809862944ecb18"
 
 http_archive(
     name = "bazel_bats",
@@ -19,12 +20,12 @@ http_archive(
     urls = [
         "https://github.com/filmil/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
     ],
-    sha256 = "94aea504205cee5f00d9182975a95a5dadf1747fecb75f7d93e09cccc1c19803",
+    sha256 = BAZEL_BATS_SHA256,
 )
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
-# 'version' and 'sha256' of bats-core can be provided to override the version of v1.1.0.
+# 'version' and 'sha256' of bats-core can be provided to override the version of v1.5.0.
 bazel_bats_dependencies()
 ```
 
