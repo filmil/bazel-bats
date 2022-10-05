@@ -67,8 +67,12 @@ exports_files(glob(["test/*.bats"]))
 """
 
 def bazel_bats_dependencies(
-        version = "1.5.0",
-        sha256 = "36a3fd4413899c0763158ae194329af8f48bb1ff0d1338090b80b3416d5793af"):
+    version = "1.7.0",
+    sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
+):
+    if not sha256:
+        fail("sha256 for bats core not supplied.")
+
     http_archive(
         name = "bats_core",
         build_file_content = BATS_CORE_BUILD,
