@@ -111,10 +111,9 @@ def bazel_bats_dependencies(
         sha256 = sha256,
     )
 
-    if bats_assert_version and not bats_support_version:
-        fail("bats assert version set, but missing set version for dependency bats support.")
-
     if bats_assert_version:
+        if not bats_support_version:
+            fail("bats assert version set, but missing set version for dependency bats support.")
         if not bats_assert_sha256:
             fail("sha256 for bats assert not supplied.")
         http_archive(
