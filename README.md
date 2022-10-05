@@ -25,8 +25,20 @@ http_archive(
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 
-# 'version' and 'sha256' of bats-core can be provided to override the version of v1.5.0.
 bazel_bats_dependencies()
+```
+
+You can alternatively specify the specific bats-core version.
+
+```
+BATS_CORE_VERSION = "1.7.0"
+BATS_CORE_SHA256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
+
+# ...
+
+bazel_bats_dependencies(
+    version = BATS_CORE_VERSION,
+    sha256 = BATS_CORE_SHA256)
 ```
 
 In your `BUILD.bazel` file add the following:
