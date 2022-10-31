@@ -18,14 +18,15 @@ bats_test(
     ],
 )
 
-bats_test(
-    name = "parallel_test",
-    srcs = ["@bats_core//:test/parallel.bats"],
-    deps = [
-        "@bats_core//:parallel_lib",
-        "@bats_core//:test_helper",
-    ],
-)
+# TODO(https://github.com/filmil/bazel-bats/issues/13): Re-enable this test.
+#bats_test(
+#    name = "parallel_test",
+#    srcs = ["@bats_core//:test/parallel.bats"],
+#    deps = [
+#        "@bats_core//:parallel_lib",
+#        "@bats_core//:test_helper",
+#    ],
+#)
 
 bats_test(
     name = "pretty_formatter_test",
