@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     # Pin the version of the docker container used for building.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-18.04
     steps:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
