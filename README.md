@@ -47,7 +47,8 @@ bazel_bats_dependencies(
     bats_assert_version = BATS_ASSERT_VERSION,
     bats_assert_sha256 = BATS_ASSERT_SHA256,
     bats_support_version = BATS_SUPPORT_VERSION,
-    bats_support_sha256 = BATS_SUPPORT_SHA256)
+    bats_support_sha256 = BATS_SUPPORT_SHA256
+)
 ```
 
 In your `BUILD.bazel` file add the following:
