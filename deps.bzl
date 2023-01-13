@@ -71,7 +71,7 @@ def bazel_bats_dependencies(
     sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
 ):
     if not sha256:
-        fail("sha256 for bats core not supplied.")
+        fail("sha256 for bats-core was not supplied.")
 
     http_archive(
         name = "bats_core",
