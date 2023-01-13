@@ -96,10 +96,10 @@ def bazel_bats_dependencies(
     bats_assert_version = None,
     bats_assert_sha256 = None,
     bats_support_version = None,
-    bats_support_sha256 = None):
-
+    bats_support_sha256 = None
+):
     if not sha256:
-        fail("sha256 for bats core not supplied.")
+        fail("sha256 for bats-core was not supplied.")
 
     http_archive(
         name = "bats_core",
@@ -113,9 +113,9 @@ def bazel_bats_dependencies(
 
     if bats_assert_version:
         if not bats_support_version:
-            fail("bats assert version set, but missing set version for dependency bats support.")
+            fail("bats-assert version was set, but was missing set version for dependency bats-support.")
         if not bats_assert_sha256:
-            fail("sha256 for bats assert not supplied.")
+            fail("sha256 for bats-assert was not supplied.")
         http_archive(
             name = "bats_assert",
             build_file_content = _BATS_ASSERT_BUILD,
@@ -127,7 +127,7 @@ def bazel_bats_dependencies(
         )
     if bats_support_version:
         if not bats_support_sha256:
-            fail("sha256 for bats support not supplied.")
+            fail("sha256 for bats-support was not supplied.")
         http_archive(
             name = "bats_support",
             build_file_content = _BATS_SUPPORT_BUILD,
