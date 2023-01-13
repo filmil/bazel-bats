@@ -98,7 +98,6 @@ def bazel_bats_dependencies(
     bats_support_version = None,
     bats_support_sha256 = None
 ):
-
     if not sha256:
         fail("sha256 for bats-core was not supplied.")
 
