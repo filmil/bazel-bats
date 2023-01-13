@@ -33,7 +33,10 @@ sh_library(
     name = "parallel_lib",
     srcs = ["test/parallel.bats"],
     visibility = ["//visibility:public"],
-    data = glob(["test/fixtures/parallel/**"]),
+    data = glob([
+        "test/concurrent-coordination.bash",
+        "test/fixtures/parallel/**",
+    ]),
 )
 
 sh_library(
