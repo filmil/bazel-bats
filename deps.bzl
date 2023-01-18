@@ -2,7 +2,7 @@
 # https://stackoverflow.com/questions/47192668/idiomatic-retrieval-of-the-bazel-execution-path#
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-BATS_CORE_BUILD="""
+_BATS_CORE_BUILD = """
 sh_library(
     name = "bats_lib",
     srcs = glob(["libexec/**"]),
@@ -69,19 +69,74 @@ sh_library(
 exports_files(glob(["test/*.bats"]))
 """
 
+_BATS_ASSERT_BUILD = """
+filegroup(
+    name = "load_files",
+    srcs = [
+        "load.bash",
+        "src/assert.bash",
+    ],
+    visibility = ["//visibility:public"],
+)
+"""
+
+_BATS_SUPPORT_BUILD = """
+filegroup(
+    name = "load_files",
+    srcs = [
+        "load.bash",
+        "src/error.bash",
+        "src/lang.bash",
+        "src/output.bash",
+    ],
+    visibility = ["//visibility:public"],
+)
+"""
+
 def bazel_bats_dependencies(
     version = "1.7.0",
-    sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
+    sha256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e",
+    bats_assert_version = None,
+    bats_assert_sha256 = None,
+    bats_support_version = None,
+    bats_support_sha256 = None
 ):
     if not sha256:
         fail("sha256 for bats-core was not supplied.")
 
     http_archive(
         name = "bats_core",
-        build_file_content = BATS_CORE_BUILD,
+        build_file_content = _BATS_CORE_BUILD,
         urls = [
             "https://github.com/bats-core/bats-core/archive/refs/tags/v%s.tar.gz" % version,
         ],
         strip_prefix = "bats-core-%s" % version,
         sha256 = sha256,
     )
+
+    if bats_assert_version:
+        if not bats_support_version:
+            fail("bats-assert version was set, but was missing set version for dependency bats-support.")
+        if not bats_assert_sha256:
+            fail("sha256 for bats-assert was not supplied.")
+        http_archive(
+            name = "bats_assert",
+            build_file_content = _BATS_ASSERT_BUILD,
+            sha256 = bats_assert_sha256,
+            strip_prefix = "bats-assert-%s" % bats_assert_version,
+            urls = [
+                "https://github.com/bats-core/bats-assert/archive/refs/tags/v%s.tar.gz" % bats_assert_version,
+            ],
+        )
+    if bats_support_version:
+        if not bats_support_sha256:
+            fail("sha256 for bats-support was not supplied.")
+        http_archive(
+            name = "bats_support",
+            build_file_content = _BATS_SUPPORT_BUILD,
+            sha256 = bats_support_sha256,
+            strip_prefix = "bats-support-%s" % bats_support_version,
+            urls = [
+                "https://github.com/bats-core/bats-support/archive/refs/tags/v%s.tar.gz" % bats_support_version,
+            ],
+        )
