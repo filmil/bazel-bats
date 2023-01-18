@@ -62,6 +62,8 @@ bats_test(
 )
 ```
 
+If your test would like to make use of the bats-assert extension (`assert_success`, `assert_failure`, `assert_output`, etc), simply add `uses_bats_assert = True` to your `bats_test()` target. This still requires adding the appropriate `load` statements in your test file.
+
 ## Examples
 
 This repository is an example of a repo with BATS tests.  If you have `bazel`

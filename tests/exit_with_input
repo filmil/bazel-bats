@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
+
+if [ ! -z "$2" ]; then
+    echo "Given for output: $2"
+fi
+
 exit $1
