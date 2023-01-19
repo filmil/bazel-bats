@@ -11,8 +11,8 @@ In your `WORKSPACE` file load and include as follows:
 ```
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-BAZEL_BATS_VERSION = "0.30.0"
-BAZEL_BATS_SHA256 = "9ae647d2db3aa0bd36af84a0a864dce1c4a1c4f7207b240d3a809862944ecb18"
+BAZEL_BATS_VERSION = "0.31.0"
+BAZEL_BATS_SHA256 = "d4666a1d2c37ef38bace5b66fc787108c37ac8c8e8def0fdb5ba13f45e52711f"
 
 http_archive(
     name = "bazel_bats",
