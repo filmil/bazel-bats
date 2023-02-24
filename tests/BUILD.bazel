@@ -1,4 +1,4 @@
-load("@bazel_bats//:rules.bzl", "bats_test")
+load("@bazel_bats//:rules.bzl", "bats_test", "bats_test_suite")
 
 sh_binary(
     name = "exit_with_input_bin",
@@ -86,4 +86,12 @@ bats_test(
 filegroup(
     name = "dummy",
     srcs = ["dummy.txt"],
+)
+
+bats_test_suite(
+    name = "test_suite",
+    srcs = [
+        "hello_world_1.bats",
+        "hello_world_2.bats",
+    ]
 )
