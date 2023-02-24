@@ -146,9 +146,6 @@ def bats_test_suite(name, srcs, **kwargs):
     tests = []
 
     for src in srcs:
-        if not src.endswith(".bats"):
-            fail("srcs should have `.bats` extensions")
-
         # Prefixed with `name` to allow parameterization with macros
         # The test name should not end with `.bats`
         test_name = name + "_" + src[:-5]
