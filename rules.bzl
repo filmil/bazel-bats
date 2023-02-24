@@ -127,3 +127,40 @@ def bats_test(uses_bats_assert = False, **kwargs):
     _bats_test(**kwargs)
   else:
     _bats_with_bats_assert_test(**kwargs)
+
+
+# Inspired from `rules_rust`
+def bats_test_suite(name, srcs, **kwargs):
+    """
+    A rule for creating a test suite for a set of `bats_test` targets.
+
+    The rule can be used to generate `bats_test` targets for each source file and a `test_suite`
+    which encapsulates all tests.
+
+    Args:
+        name (str): The name of the `test_suite`.
+        srcs (list): All test sources, typically `glob(["*.bats"])`.
+        **kwargs (dict): Additional keyword arguments for the underyling `bats_test` targets. The
+            `tags` argument is also passed to the generated `test_suite` target.
+    """
+    tests = []
+
+    for src in srcs:
+        if not src.endswith(".bats"):
+            fail("srcs should have `.bats` extensions")
+
+        # Prefixed with `name` to allow parameterization with macros
+        # The test name should not end with `.bats`
+        test_name = name + "_" + src[:-5]
+        bats_test(
+            name = test_name,
+            srcs = [src],
+            **kwargs
+        )
+        tests.append(test_name)
+
+    native.test_suite(
+        name = name,
+        tests = tests,
+        tags = kwargs.get("tags", None),
+    )
