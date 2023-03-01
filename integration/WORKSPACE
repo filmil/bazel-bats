@@ -1,18 +1,14 @@
 workspace(name = "bazel_bats_integration")
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-BAZEL_BATS_VERSION = "05902c66e7aba5bca0816109e9f34e2dbebe19f6"
+BAZEL_BATS_COMMIT_ID = "e85b43efc90133d5cd4ca807a811e9aa4006fb49"
 
-http_archive(
+git_repository(
     name = "bazel_bats",
-    sha256 = "0be1795d8052c54e1068b3b0a648d67de0b9bf43cd15fd7bef73b6460b73b78f",
-    strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
-    urls = [
-        # NOTE: The following URL can be used if BAZEL_BATS_VERSION is a tag reference.
-        # "https://github.com/filmil/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
-        "https://github.com/filmil/bazel-bats/archive/%s.tar.gz" % BAZEL_BATS_VERSION,
-    ],
+    remote = "https://github.com/filmil/bazel-bats",
+    commit = BAZEL_BATS_COMMIT_ID,
+    shallow_since = "1677540706 -0800",
 )
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
