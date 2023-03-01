@@ -9,18 +9,15 @@
 In your `WORKSPACE` file load and include as follows:
 
 ```
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-BAZEL_BATS_VERSION = "0.31.0"
-BAZEL_BATS_SHA256 = "d4666a1d2c37ef38bace5b66fc787108c37ac8c8e8def0fdb5ba13f45e52711f"
+BAZEL_BATS_COMMIT_ID = "e85b43efc90133d5cd4ca807a811e9aa4006fb49"
 
-http_archive(
+git_repository(
     name = "bazel_bats",
-    strip_prefix = "bazel-bats-%s" % BAZEL_BATS_VERSION,
-    urls = [
-        "https://github.com/filmil/bazel-bats/archive/refs/tags/v%s.tar.gz" % BAZEL_BATS_VERSION,
-    ],
-    sha256 = BAZEL_BATS_SHA256,
+    remote = "https://github.com/filmil/bazel-bats",
+    commit = BAZEL_BATS_COMMIT_ID,
+    shallow_since = "1677540706 -0800",
 )
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
@@ -28,7 +25,8 @@ load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 bazel_bats_dependencies()
 ```
 
-You can alternatively specify the specific bats-core version, as well as optionally adding bats-core extensions.
+You can alternatively specify the specific bats-core version, as well as
+optionally adding bats-core extensions.
 
 ```
 BATS_ASSERT_VERSION = "2.0.0"
@@ -62,7 +60,10 @@ bats_test(
 )
 ```
 
-If your test would like to make use of the bats-assert extension (`assert_success`, `assert_failure`, `assert_output`, etc), simply add `uses_bats_assert = True` to your `bats_test()` target. This still requires adding the appropriate `load` statements in your test file.
+If your test would like to make use of the bats-assert extension
+(`assert_success`, `assert_failure`, `assert_output`, etc), simply add
+`uses_bats_assert = True` to your `bats_test()` target. This still requires
+adding the appropriate `load` statements in your test file.
 
 ## Examples
 
