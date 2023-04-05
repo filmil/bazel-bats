@@ -5,9 +5,10 @@ def _dirname(path):
     prefix, _, _ = path.rpartition("/")
     return prefix.rstrip("/")
 
-def _test_files(bats, srcs):
-    return '"{bats_bin}" {test_paths}'.format(
+def _test_files(bats, srcs, attr):
+    return '"{bats_bin}" {bats_args} {test_paths}'.format(
         bats_bin = bats.short_path,
+        bats_args = " ".join(attr.bats_args),
         test_paths = " ".join(['"{}"'.format(s.short_path) for s in srcs]),
     )
 
@@ -40,7 +41,7 @@ def _bats_test_impl(ctx):
             'export {}="{}"'.format(key, ctx.expand_location(val, ctx.attr.deps))
             for key, val in ctx.attr.env.items()
         ] +
-        [_test_files(ctx.executable._bats, ctx.files.srcs)],
+        [_test_files(ctx.executable._bats, ctx.files.srcs, ctx.attr)],
     )
     ctx.actions.write(
         output = ctx.outputs.executable,
@@ -66,14 +67,15 @@ def _bats_with_bats_assert_test_impl(ctx):
         )
         test_helper_outputs.append(test_helper_dir)
         ctx.actions.run_shell(
-            outputs=[test_helper_dir],
-            inputs=depset(ctx.attr._bats_assert.files.to_list() + ctx.attr._bats_support.files.to_list()),
-            arguments=[test_helper_dir.path, bats_assert_base_dir, bats_support_base_dir],
-            command="""
+            outputs = [test_helper_dir],
+            inputs = depset(ctx.attr._bats_assert.files.to_list() + ctx.attr._bats_support.files.to_list()),
+            arguments = [test_helper_dir.path, bats_assert_base_dir, bats_support_base_dir],
+            command = """
             mkdir -p $1/bats-support $1/bats-assert \\
                 && cp -r $2/* $1/bats-assert \\
                 && cp -r $3/* $1/bats-support
-            """)
+            """,
+        )
 
     runfiles = ctx.runfiles(
         files = test_helper_outputs,
@@ -85,6 +87,9 @@ _bats_test_attrs = {
     "deps": attr.label_list(),
     "env": attr.string_dict(
         doc = "A list of key-value pairs of environment variables to define",
+    ),
+    "bats_args": attr.string_list(
+        doc = "List of arguments passed to `bats`",
     ),
     "srcs": attr.label_list(
         allow_files = [".bats"],
@@ -121,13 +126,11 @@ _bats_with_bats_assert_test = rule(
     doc = "Runs a BATS test on the supplied source files, allowing for usage of bats-support and bats-assert.",
 )
 
-
 def bats_test(uses_bats_assert = False, **kwargs):
-  if not uses_bats_assert:
-    _bats_test(**kwargs)
-  else:
-    _bats_with_bats_assert_test(**kwargs)
-
+    if not uses_bats_assert:
+        _bats_test(**kwargs)
+    else:
+        _bats_with_bats_assert_test(**kwargs)
 
 # Inspired from `rules_rust`
 def bats_test_suite(name, srcs, **kwargs):
