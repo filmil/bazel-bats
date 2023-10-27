@@ -1,13 +1,14 @@
 name: Test
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
-
+    branches: [ main ]
+  schedule:
+    - cron: "43 19 * * 0"
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
