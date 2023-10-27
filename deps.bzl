@@ -74,8 +74,9 @@ filegroup(
     name = "load_files",
     srcs = [
         "load.bash",
-        "src/assert.bash",
-    ],
+    ] + glob([
+        "src/**/*.bash",
+    ]),
     visibility = ["//visibility:public"],
 )
 """
@@ -85,10 +86,9 @@ filegroup(
     name = "load_files",
     srcs = [
         "load.bash",
-        "src/error.bash",
-        "src/lang.bash",
-        "src/output.bash",
-    ],
+    ] + glob([
+        "src/**/*.bash",
+    ]),
     visibility = ["//visibility:public"],
 )
 """

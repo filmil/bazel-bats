@@ -37,7 +37,16 @@ def _bats_test_impl(ctx):
         ["export TMPDIR=\"$TEST_TMPDIR\""] +
         ["export PATH=\"{bats_bins_path}\":$PATH".format(bats_bins_path = sep.join(path))] +
         [
-            'export {}="{}"'.format(key, ctx.expand_location(val, ctx.attr.deps))
+            # First try and expand `$(location ...)`.
+            # Then try for make variables (possibly supplied by toolchains).
+            'export {}="{}"'.format(
+                key,
+                ctx.expand_make_variables(
+                    key,
+                    ctx.expand_location(val, ctx.attr.deps),
+                    {}
+                )
+            )
             for key, val in ctx.attr.env.items()
         ] +
         [_test_files(ctx.executable._bats, ctx.files.srcs)],
@@ -97,7 +106,7 @@ _bats_test_attrs = {
     ),
 }
 
-_bats_with_bats_assert_test_attrs = {
+_bats_with_bats_assert_test_attrs = _bats_test_attrs | {
     "_bats_support": attr.label(
         default = Label("@bats_support//:load_files"),
     ),
@@ -105,7 +114,6 @@ _bats_with_bats_assert_test_attrs = {
         default = Label("@bats_assert//:load_files"),
     ),
 }
-_bats_with_bats_assert_test_attrs.update(_bats_test_attrs)
 
 _bats_test = rule(
     _bats_test_impl,
