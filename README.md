@@ -11,7 +11,7 @@ In your `WORKSPACE` file load and include as follows:
 ```
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
-BAZEL_BATS_COMMIT_ID = "e85b43efc90133d5cd4ca807a811e9aa4006fb49"
+BAZEL_BATS_COMMIT_ID = "22db48a75128044bb611492b3e1e654187881fa3"
 
 git_repository(
     name = "bazel_bats",
@@ -25,8 +25,9 @@ load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 bazel_bats_dependencies()
 ```
 
-You can alternatively specify the specific bats-core version, as well as
-optionally adding bats-core extensions.
+You can alternatively specify the specific `bats-core` version, as well
+as optionally adding `bats-core` extensions in
+`bazel_bats_dependencies(...)`:
 
 ```
 BATS_ASSERT_VERSION = "2.0.0"
