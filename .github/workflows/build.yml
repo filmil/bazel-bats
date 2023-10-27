@@ -9,7 +9,7 @@ on:
     
 jobs:
   test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
