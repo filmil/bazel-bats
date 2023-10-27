@@ -13,7 +13,7 @@ jobs:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
         with:
-          version: 4.0.0
+          version: 6.4.0
       - name: Checkout
         uses: actions/checkout@v2
       - name: Integration
