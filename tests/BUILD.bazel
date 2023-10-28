@@ -6,11 +6,27 @@ sh_binary(
     srcs = ["exit_with_input"],
 )
 
+sh_binary(
+    name = "wrapper_script_for_exit_with_input_bin",
+    srcs = ["wrapper_script_for_exit_with_input"],
+    deps = [
+        ":exit_with_input_bin"
+    ],
+)
+
 bats_test(
     name = "exit_with_input_test",
     srcs = ["exit_with_input.bats"],
     deps = [
         ":exit_with_input_bin",
+    ],
+)
+
+bats_test(
+    name = "wrapper_script_for_exit_with_input_test",
+    srcs = ["wrapper_script_for_exit_with_input.bats"],
+    deps = [
+        ":wrapper_script_for_exit_with_input_bin",
     ],
 )
 
