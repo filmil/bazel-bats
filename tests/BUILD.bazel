@@ -9,7 +9,7 @@ sh_binary(
 sh_binary(
     name = "wrapper_script_for_exit_with_input_bin",
     srcs = ["wrapper_script_for_exit_with_input"],
-    deps = [
+    data = [
         ":exit_with_input_bin"
     ],
 )
