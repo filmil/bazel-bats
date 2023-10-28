@@ -57,9 +57,12 @@ def _bats_test_impl(ctx):
         content = content,
     )
 
+    dep_transitive_files = []
+    for dep in ctx.attr.deps:
+        dep_transitive_files.extend(dep.default_runfiles.files.to_list())
     runfiles = ctx.runfiles(
         files = ctx.files.srcs,
-        transitive_files = depset(ctx.files.data + ctx.files.deps),
+        transitive_files = depset(ctx.files.data + dep_transitive_files),
     ).merge(ctx.attr._bats.default_runfiles)
     return [DefaultInfo(runfiles = runfiles)]
 
