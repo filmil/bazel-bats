@@ -1,3 +1,5 @@
+load("//:expansion.bzl", "expansion")
+
 # From:
 # https://stackoverflow.com/questions/47192668/idiomatic-retrieval-of-the-bazel-execution-path#
 
@@ -32,24 +34,21 @@ def _bats_test_impl(ctx):
     path = ["$PWD/" + _dirname(b.short_path) for b in ctx.files.deps]
     sep = ctx.configuration.host_path_separator
 
+    expanded_envs = expansion.expand_with_toolchains_and_location_attr(
+        ctx,
+        validate_expansion = True,
+    )
+    for env_key, env_val in expanded_envs.items():
+        # Postprocess expanded vals to replace any escaped `$`
+        # (from bazel notation to bash notation).
+        expanded_envs[env_key] = env_val.replace("$$", "\\$")
+
     content = "\n".join(
         ["#!/usr/bin/env bash"] +
         ["set -e"] +
         ["export TMPDIR=\"$TEST_TMPDIR\""] +
         ["export PATH=\"{bats_bins_path}\":$PATH".format(bats_bins_path = sep.join(path))] +
-        [
-            # First try and expand `$(location ...)`.
-            # Then try for make variables (possibly supplied by toolchains).
-            'export {}="{}"'.format(
-                key,
-                ctx.expand_make_variables(
-                    key,
-                    ctx.expand_location(val, ctx.attr.deps),
-                    {}
-                )
-            )
-            for key, val in ctx.attr.env.items()
-        ] +
+        ['export {}="{}"'.format(key, val) for key, val in expanded_envs.items()] +
         [_test_files(ctx.executable._bats, ctx.files.srcs, ctx.attr)],
     )
     ctx.actions.write(
@@ -138,6 +137,30 @@ _bats_with_bats_assert_test = rule(
 )
 
 def bats_test(uses_bats_assert = False, **kwargs):
+    """
+    A rule for creating a test target for running one or more `*.bats` test files.
+
+    This rule can run one or more bats files, utilizing the `bats-core` framework. Optionally,
+    `bats-assert` (extension library) can be used for these tests.
+
+    `bats_test()` is a macro that handles proper target definition internally.
+
+    Args:
+        uses_bats_assert (str): Whether this test makes use of `bats_assert` (and `bats_support`).
+        **kwargs (dict): Additional keyword arguments that are passed to the underyling target.
+            These attributes may include:
+            name:       (Required) The name for the underlying internal target.
+            srcs:       (Required) The `*.bats` files to be run by this test.
+            data:       (Optional) Files necessary for the test during runtime.
+            deps:       (Optional) Dependency targets for the test.
+            bats_args:  (Optional) Arguments to be passed to the `bats` (bats-core) framework when
+                        running the tests.
+            env:        (Optional) Dictionary of enviroment variables to their set values. Values
+                        are subject to `$(location)` and "Make variable" substitution. This
+                        includes expansion mapping provided via `toolchains`.
+            toolchains: (Optional) Additional providers for extra logic (e.g. `env` substitution).
+            *:          (Optional) Any other attributes that apply for `*_test` targets.
+    """
     if not uses_bats_assert:
         _bats_test(**kwargs)
     else:
