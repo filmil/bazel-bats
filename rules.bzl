@@ -8,7 +8,7 @@ def _dirname(path):
     return prefix.rstrip("/")
 
 def _test_files(bats, srcs, attr):
-    return '"{bats_bin}" {bats_args} {test_paths}'.format(
+    return '"{bats_bin}" {bats_args} "$@" {test_paths}'.format(
         bats_bin = bats.short_path,
         bats_args = " ".join(attr.bats_args),
         test_paths = " ".join(['"{}"'.format(s.short_path) for s in srcs]),
