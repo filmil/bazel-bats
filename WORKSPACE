@@ -8,6 +8,8 @@ BATS_CORE_VERSION = "1.7.0"
 BATS_CORE_SHA256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
 BATS_SUPPORT_VERSION = "0.3.0"
 BATS_SUPPORT_SHA256 = "7815237aafeb42ddcc1b8c698fc5808026d33317d8701d5ec2396e9634e2918f"
+BAZEL_SKYLIB_VERSION = "1.5.0"
+BAZEL_SKYLIB_SHA256 = "118e313990135890ee4cc8504e32929844f9578804a1b2f571d69b1dd080cfb8"
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
@@ -23,12 +25,11 @@ bazel_bats_dependencies(
 
 # Used for testing support/compatibility with `string_flag()` from
 # `@bazel_skylib//rules:common_settings.bzl` (specifically testing make variable support).
-# TODO: Update from `git_repository()` to `http_archive()` once a tag/release >1.4.2 is out.
-#       Specifically looking for changes from https://github.com/bazelbuild/bazel-skylib/pull/440.
-#       See https://github.com/bazelbuild/bazel-skylib/issues/471.
-git_repository(
+http_archive(
     name = "bazel_skylib",
-    # Latest `main` commit that contains desired changes.
-    commit = "652c8f0b2817daaa2570b7a3b2147643210f7dc7",
-    remote = "https://github.com/bazelbuild/bazel-skylib.git",
+    sha256 = BAZEL_SKYLIB_SHA256,
+    strip_prefix = "bazel-skylib-{0}".format(BAZEL_SKYLIB_VERSION),
+    urls = [
+        "https://github.com/bazelbuild/bazel-skylib/archive/refs/tags{0}.tar.gz".format(BAZEL_SKYLIB_VERSION),
+    ],
 )
