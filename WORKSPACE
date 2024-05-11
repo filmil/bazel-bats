@@ -12,7 +12,7 @@ BAZEL_SKYLIB_VERSION = "1.5.0"
 BAZEL_SKYLIB_SHA256 = "118e313990135890ee4cc8504e32929844f9578804a1b2f571d69b1dd080cfb8"
 
 load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 bazel_bats_dependencies(
     version = BATS_CORE_VERSION,
