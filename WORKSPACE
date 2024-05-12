@@ -30,6 +30,6 @@ http_archive(
     sha256 = BAZEL_SKYLIB_SHA256,
     strip_prefix = "bazel-skylib-{0}".format(BAZEL_SKYLIB_VERSION),
     urls = [
-        "https://github.com/bazelbuild/bazel-skylib/archive/refs/tags{0}.tar.gz".format(BAZEL_SKYLIB_VERSION),
+        "https://github.com/bazelbuild/bazel-skylib/archive/refs/tags/{0}.tar.gz".format(BAZEL_SKYLIB_VERSION),
     ],
 )
