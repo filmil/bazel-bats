@@ -1,6 +1,7 @@
 # From:
 # https://stackoverflow.com/questions/47192668/idiomatic-retrieval-of-the-bazel-execution-path#
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 BATS_CORE_BUILD_CONTENT = """
 sh_library(
