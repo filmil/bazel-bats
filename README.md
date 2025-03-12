@@ -6,6 +6,16 @@
 
 ## Usage
 
+### `MODULE.bazel` (a.k.a. bzlmod)
+
+```
+bazel_dep(name = "bazel_bats", version = "0.35.0")
+```
+
+### Workspace
+
+> Support for Workspace was removed in bazel-bats 0.35.0.
+
 In your `WORKSPACE` file load and include as follows:
 
 ```

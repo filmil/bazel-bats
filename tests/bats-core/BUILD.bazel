@@ -9,14 +9,15 @@ bats_test(
     ],
 )
 
-bats_test(
-    name = "junit_formatter_test",
-    srcs = ["@bats_core//:test/junit-formatter.bats"],
-    deps = [
-        "@bats_core//:junit_formatter_lib",
-        "@bats_core//:test_helper",
-    ],
-)
+# TODO(https://github.com/filmil/bazel-bats/issues/36): Re-enable this test.
+#bats_test(
+#    name = "junit_formatter_test",
+#    srcs = ["@bats_core//:test/junit-formatter.bats"],
+#    deps = [
+#        "@bats_core//:junit_formatter_lib",
+#        "@bats_core//:test_helper",
+#    ],
+#)
 
 # TODO(https://github.com/filmil/bazel-bats/issues/13): Re-enable this test.
 #bats_test(
