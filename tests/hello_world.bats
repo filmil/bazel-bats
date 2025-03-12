@@ -37,7 +37,7 @@
 
 @test "Test environment variable expanded from bazel rlocationpath" {
   echo "Rlocationpath: ${RLOCATIONPATH_VAL}"
-  [ "${RLOCATIONPATH_VAL}" == "bazel_bats/tests/dummy.txt" ]
+  [ "${RLOCATIONPATH_VAL}" == "_main/tests/dummy.txt" ]
 }
 
 @test "Test environment variable expanded from another variable in env attr" {
@@ -157,17 +157,17 @@
 
 @test "Test indirect environment variable expanded from bazel rlocationpath (raw)" {
   echo "Rlocationpath: ${INDIRECT_RLOCATIONPATH_VAL_RAW}"
-  [ "${INDIRECT_RLOCATIONPATH_VAL_RAW}" == "bazel_bats/tests/dummy.txt" ]
+  [ "${INDIRECT_RLOCATIONPATH_VAL_RAW}" == "_main/tests/dummy.txt" ]
 }
 
 @test "Test indirect environment variable expanded from bazel rlocationpath (in parenthesis)" {
   echo "Rlocationpath: ${INDIRECT_RLOCATIONPATH_VAL_PAREN}"
-  [ "${INDIRECT_RLOCATIONPATH_VAL_PAREN}" == "bazel_bats/tests/dummy.txt" ]
+  [ "${INDIRECT_RLOCATIONPATH_VAL_PAREN}" == "_main/tests/dummy.txt" ]
 }
 
 @test "Test indirect environment variable expanded from bazel rlocationpath (in curly braces)" {
   echo "Rlocationpath: ${INDIRECT_RLOCATIONPATH_VAL_CURLY}"
-  [ "${INDIRECT_RLOCATIONPATH_VAL_CURLY}" == "bazel_bats/tests/dummy.txt" ]
+  [ "${INDIRECT_RLOCATIONPATH_VAL_CURLY}" == "_main/tests/dummy.txt" ]
 }
 
 @test "Test indirect environment variable expanded from bazel string flag (raw)" {
@@ -202,15 +202,15 @@
 
 @test "Test indirect multiple environment variables expanded (raw)" {
   echo "Muli env var: ${MULTI_INDIRECT_RAW}"
-  [ "${MULTI_INDIRECT_RAW}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-bazel_bats/tests/dummy.txt-flag_value-tests/dummy.txt" ]
+  [ "${MULTI_INDIRECT_RAW}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-_main/tests/dummy.txt-flag_value-tests/dummy.txt" ]
 }
 
 @test "Test indirect multiple environment variables expanded (in parenthesis)" {
   echo "Muli env var: ${MULTI_INDIRECT_PAREN}"
-  [ "${MULTI_INDIRECT_PAREN}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-bazel_bats/tests/dummy.txt-flag_value-tests/dummy.txt" ]
+  [ "${MULTI_INDIRECT_PAREN}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-_main/tests/dummy.txt-flag_value-tests/dummy.txt" ]
 }
 
 @test "Test indirect multiple environment variables expanded (in curly braces)" {
   echo "Muli env var: ${MULTI_INDIRECT_CURLY}"
-  [ "${MULTI_INDIRECT_CURLY}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-bazel_bats/tests/dummy.txt-flag_value-tests/dummy.txt" ]
+  [ "${MULTI_INDIRECT_CURLY}" == "hello_world-\$SIMPLE_VAL-tests/dummy.txt-_main/tests/dummy.txt-flag_value-tests/dummy.txt" ]
 }
