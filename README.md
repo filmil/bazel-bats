@@ -14,51 +14,11 @@ bazel_dep(name = "bazel_bats", version = "0.35.0")
 
 ### Workspace
 
-> Support for Workspace was removed in bazel-bats 0.35.0.
+> Support for `WORKSPACE` was removed starting from bazel-bats 0.35.0. If you
+> must use `WORKSPACE`, refer to earlier releases. Please acknowledge that
+> earlier releases are not supported.
 
-In your `WORKSPACE` file load and include as follows:
-
-```
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-
-BAZEL_BATS_COMMIT_ID = "22db48a75128044bb611492b3e1e654187881fa3"
-
-git_repository(
-    name = "bazel_bats",
-    remote = "https://github.com/filmil/bazel-bats",
-    commit = BAZEL_BATS_COMMIT_ID,
-    shallow_since = "1677540706 -0800",
-)
-
-load("@bazel_bats//:deps.bzl", "bazel_bats_dependencies")
-
-bazel_bats_dependencies()
-```
-
-You can alternatively specify the specific `bats-core` version, as well
-as optionally adding `bats-core` extensions in
-`bazel_bats_dependencies(...)`:
-
-```
-BATS_ASSERT_VERSION = "2.0.0"
-BATS_ASSERT_SHA256 = "15dbf1abb98db785323b9327c86ee2b3114541fe5aa150c410a1632ec06d9903"
-BATS_CORE_VERSION = "1.7.0"
-BATS_CORE_SHA256 = "ac70c2a153f108b1ac549c2eaa4154dea4a7c1cc421e3352f0ce6ea49435454e"
-BATS_SUPPORT_VERSION = "0.3.0"
-BATS_SUPPORT_SHA256 = "7815237aafeb42ddcc1b8c698fc5808026d33317d8701d5ec2396e9634e2918f"
-
-# ...
-
-bazel_bats_dependencies(
-    version = BATS_CORE_VERSION,
-    sha256 = BATS_CORE_SHA256,
-    # Optional test extensions
-    bats_assert_version = BATS_ASSERT_VERSION,
-    bats_assert_sha256 = BATS_ASSERT_SHA256,
-    bats_support_version = BATS_SUPPORT_VERSION,
-    bats_support_sha256 = BATS_SUPPORT_SHA256
-)
-```
+### Code changes
 
 In your `BUILD.bazel` file add the following:
 
