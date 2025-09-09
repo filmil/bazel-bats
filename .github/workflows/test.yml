@@ -14,7 +14,7 @@ jobs:
       - name: Setup bazel
         uses: abhinavsingh/setup-bazel@v3
         with:
-          version: 8.1.1
+          version: 8.3.1
       - name: Checkout
         uses: actions/checkout@v4
       - name: Cache Bazel
