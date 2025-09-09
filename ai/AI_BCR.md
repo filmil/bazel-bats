@@ -25,3 +25,11 @@ In file `MODULE.bazel` increment the `version` SemVer parameter value in the
 * Tag this commit with the value of `version` previously computed. Push that tag
   to the remote repository.
 
+## Instructions specific to the repo `bazel-bats`
+
+* In the README.md file, update the value of the `version` param in the usage
+  example line containing `bazel_dep`.
+
+* In the README.md file, update the value of `BAZEL_BATS_COMMIT_ID` to the
+  commit hash of the commit corresponding to the latest release.
+
