@@ -1,5 +1,8 @@
 load("@bazel_bats//:rules.bzl", "bats_test", "bats_test_suite")
 load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load("@rules_shell//shell:sh_library.bzl", "sh_library")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 sh_binary(
     name = "exit_with_input_bin",
