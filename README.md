@@ -3,6 +3,8 @@
 ![Build Status](https://github.com/filmil/bazel-bats/workflows/Build/badge.svg)
 ![Test Status](https://github.com/filmil/bazel-bats/workflows/Test/badge.svg)
 ![Integration Status](https://github.com/filmil/bazel-bats/workflows/Integration/badge.svg)
+![Publish Status](https://github.com/filmil/bazel-bats/workflows/Publish/badge.svg)
+![Publish BCR Status](https://github.com/filmil/bazel-bats/workflows/Publish%20BCR/badge.svg)
 
 ## Usage
 
