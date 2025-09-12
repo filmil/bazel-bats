@@ -4,7 +4,6 @@ on:
     types: [created]
 
 jobs:
-  release:
   source-archive:
     runs-on: ubuntu-latest
     steps:
