@@ -31,8 +31,8 @@ def _bazel_bats_deps_impl(ctx):
 
 
 _dep_class = tag_class( attrs = {
-    "version": attr.string(),
-    "sha256": attr.string(),
+    "version": attr.string(doc = "The version of the dependency to download."),
+    "sha256": attr.string(doc = "The sha256 hash of the dependency archive."),
 })
 bazel_bats_deps = module_extension(
     implementation = _bazel_bats_deps_impl,
