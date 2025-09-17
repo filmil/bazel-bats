@@ -94,8 +94,11 @@ def _bats_with_bats_assert_test_impl(ctx):
     return [DefaultInfo(runfiles = runfiles)]
 
 _bats_test_attrs = {
-    "data": attr.label_list(allow_files = True),
-    "deps": attr.label_list(),
+    "data": attr.label_list(
+        allow_files = True,
+        doc = "List of data dependencies for the test.",
+    ),
+    "deps": attr.label_list(doc = "List of other dependencies for the test."),
     "env": attr.string_dict(
         doc = "A list of key-value pairs of environment variables to define",
     ),
