@@ -11,7 +11,7 @@
 ### `MODULE.bazel` (a.k.a. bzlmod)
 
 ```
-bazel_dep(name = "bazel_bats", version = "0.35.0")
+bazel_dep(name = "bazel_bats", version = "0.36.4")
 ```
 
 ### Workspace
