@@ -1,4 +1,4 @@
-module(name = "bazel_bats", version="0.36.3")
+module(name = "bazel_bats", version="0.36.4")
 
 bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "gazelle", version = "0.42.0")
