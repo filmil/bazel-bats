@@ -21,3 +21,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Test
         run: "bazel test //..."
+      - name: Test
+        run: "cd integration && bazel test //..."
