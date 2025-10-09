@@ -1,7 +1,7 @@
 module(name = "bazel_bats_integration", version = "0.0.0")
 
 bazel_dep(name = "bazel_bats", version = "0.0.0")
-bazel_dep(name = "rules_shell", version = "0.6.0")
+bazel_dep(name = "rules_shell", version = "0.6.1")
 
 local_path_override(
     module_name = "bazel_bats",
