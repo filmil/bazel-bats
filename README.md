@@ -1,15 +1,16 @@
 # bazel-bats: bazel test rules for the BATS testing framework (bats-core)
 
-![Test Status](https://github.com/filmil/bazel-bats/workflows/Test/badge.svg)
-![Publish Status](https://github.com/filmil/bazel-bats/workflows/Publish%20to%20my%20Bazel%20registry/badge.svg)
-![Publish BCR Status](https://github.com/filmil/bazel-bats/workflows/Publish%20on%20Bazel%20Central%20Registry/badge.svg)
+[![Test Status](https://github.com/filmil/bazel-bats/workflows/Test/badge.svg?branch=main "Test status")](https://github.com/filmil/bazel-bats/actions/workflows/test.yml)
+[![Publish Status](https://github.com/filmil/bazel-bats/workflows/Publish%20to%20my%20Bazel%20registry/badge.svg?branch=main "Publish status")](https://github.com/filmil/bazel-bats/actions/workflows/publish.yml)
+[![Publish BCR Status](https://github.com/filmil/bazel-bats/workflows/Publish%20on%20Bazel%20Central%20Registry/badge.svg?branch=main "Publish BCR status")](https://github.com/filmil/bazel-bats/actions/workflows/publish-bcr.yml)
+[![Tag and Release](https://github.com/filmil/bazel-bats/workflows/Tag%20and%_20Release/badge.svg?branch=main "Tag and Release status")](https://github.com/filmil/bazel-bats/actions/workflows/tag-and-release.yml)
 
 ## Usage
 
 ### `MODULE.bazel` (a.k.a. bzlmod)
 
 ```
-bazel_dep(name = "bazel_bats", version = "0.36.4")
+bazel_dep(name = "bazel_bats", version = "0.36.4") # Choose version here.
 ```
 
 ### Workspace
