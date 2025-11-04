@@ -142,8 +142,8 @@
     "https://bcr.bazel.build/modules/rules_python/0.40.0/MODULE.bazel": "9d1a3cd88ed7d8e39583d9ffe56ae8a244f67783ae89b60caafc9f5cf318ada7",
     "https://bcr.bazel.build/modules/rules_python/0.40.0/source.json": "939d4bd2e3110f27bfb360292986bb79fd8dcefb874358ccd6cdaa7bda029320",
     "https://bcr.bazel.build/modules/rules_shell/0.2.0/MODULE.bazel": "fda8a652ab3c7d8fee214de05e7a9916d8b28082234e8d2c0094505c5268ed3c",
-    "https://bcr.bazel.build/modules/rules_shell/0.6.0/MODULE.bazel": "c65e3ab217f64c3960e3ab55a53b430babcac6f0870fe79192812ae68a596a81",
-    "https://bcr.bazel.build/modules/rules_shell/0.6.0/source.json": "9431501bbc2114effd3b625b30555c5de51b7d291c1aee48b6f4d09d82126b3e",
+    "https://bcr.bazel.build/modules/rules_shell/0.6.1/MODULE.bazel": "72e76b0eea4e81611ef5452aa82b3da34caca0c8b7b5c0c9584338aa93bae26b",
+    "https://bcr.bazel.build/modules/rules_shell/0.6.1/source.json": "20ec05cd5e592055e214b2da8ccb283c7f2a421ea0dc2acbf1aa792e11c03d0c",
     "https://bcr.bazel.build/modules/stardoc/0.5.1/MODULE.bazel": "1a05d92974d0c122f5ccf09291442580317cdd859f07a8655f1db9a60374f9f8",
     "https://bcr.bazel.build/modules/stardoc/0.5.3/MODULE.bazel": "c7f6948dae6999bf0db32c1858ae345f112cacf98f174c7a8bb707e41b974f1c",
     "https://bcr.bazel.build/modules/stardoc/0.5.6/MODULE.bazel": "c43dabc564990eeab55e25ed61c07a1aadafe9ece96a4efabb3f8bf9063b71ef",
@@ -161,8 +161,8 @@
   "moduleExtensions": {
     "//:extensions.bzl%bazel_bats_deps": {
       "general": {
-        "bzlTransitiveDigest": "iGGPfRUv7i0eL3rgqZPIYp1zGoNXKggWIpg2+kOt22g=",
-        "usagesDigest": "h1/GaSjR9fHhhwqW8aRTrTeOLTbdKYNvQhQ3wAW4TTs=",
+        "bzlTransitiveDigest": "hEbvJORaOKIP+0Y3HPV165oMUdEmTkIemqSnbKotBls=",
+        "usagesDigest": "uVeykznH9eFrXIRXPBFWd1g9us2rd0FDXSLuenCCWqc=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -182,10 +182,10 @@
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
             "attributes": {
               "build_file_content": "\nfilegroup(\n    name = \"load_files\",\n    srcs = [\n        \"load.bash\",\n    ] + glob([\n        \"src/**/*.bash\",\n    ]),\n    visibility = [\"//visibility:public\"],\n)\n",
-              "sha256": "15dbf1abb98db785323b9327c86ee2b3114541fe5aa150c410a1632ec06d9903",
-              "strip_prefix": "bats-assert-2.0.0",
+              "sha256": "98ca3b685f8b8993e48ec057565e6e2abcc541034ed5b0e81f191505682037fd",
+              "strip_prefix": "bats-assert-2.1.0",
               "urls": [
-                "https://github.com/bats-core/bats-assert/archive/refs/tags/v2.0.0.tar.gz"
+                "https://github.com/bats-core/bats-assert/archive/refs/tags/v2.1.0.tar.gz"
               ]
             }
           },
