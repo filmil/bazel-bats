@@ -5,8 +5,6 @@ module(
 )
 
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
-bazel_dep(name = "gazelle", version = "0.51.3")
-bazel_dep(name = "bazel_skylib_gazelle_plugin", version = "1.9.0", dev_dependency = True)
 bazel_dep(name = "rules_shell", version = "0.8.0")
 # -- bazel_dep definitions -- #
 
@@ -20,5 +18,3 @@ bazel_bats.bats_assert(
 use_repo(bazel_bats, "bats_core", "bats_assert", "bats_support")
 
 # -- repo definitions -- #
-
-bazel_dep(name = "protobuf", version = "35.1")
