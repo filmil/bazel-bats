@@ -10,16 +10,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Latest release of each supported major bazel version.
+        bazel: [ "8.7.0", "9.2.0" ]
+    name: "Test (bazel ${{ matrix.bazel }})"
+    env:
+      # Overrides the version pinned in .bazelversion, so that the same source
+      # tree is tested against every supported bazel version.
+      USE_BAZEL_VERSION: ${{ matrix.bazel }}
     steps:
       - name: Setup bazel
         uses: bazel-contrib/setup-bazel@0.15.0
         with:
           bazelisk-cache: true
-          disk-cache: ${{ github.workflow }}
+          disk-cache: ${{ github.workflow }}-${{ matrix.bazel }}
           repository-cache: true
       - name: Checkout
         uses: actions/checkout@v4
       - name: Test
         run: "bazel test //..."
-      - name: Test
+      - name: Test integration
         run: "cd integration && bazel test //..."

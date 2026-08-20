@@ -19,6 +19,12 @@ bazel_dep(name = "bazel_bats", version = "0.36.4") # Choose version here.
 > must use `WORKSPACE`, refer to earlier releases. Please acknowledge that
 > earlier releases are not supported.
 
+### Supported bazel versions
+
+`bazel-bats` is developed against bazel 9.2.0 (see `.bazelversion`), and every
+change is tested on CI against the latest release of both supported major
+versions: bazel 8 and bazel 9.
+
 ### Code changes
 
 In your `BUILD.bazel` file add the following:
