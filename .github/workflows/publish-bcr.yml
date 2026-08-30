@@ -15,7 +15,31 @@ on:
         type: string
 
 jobs:
+  # Sync the BCR fork's main with upstream before anything is pushed to it.
+  #
+  # The publish flow cuts its entry branch from upstream BCR and pushes it to
+  # the fork. When upstream has touched any `.github/workflows/*` file since
+  # the fork last synced, that push carries workflow-file commits the fork has
+  # never seen, and a PAT without the `workflow` scope is rejected:
+  #
+  #     ! [remote rejected] (refusing to allow a Personal Access Token to
+  #       create or update workflow `.github/workflows/dismiss_approvals.yml`
+  #       without `workflow` scope)
+  #
+  # (run 33282606259, publishing v0.38.41). The merge-upstream API is the
+  # "Sync fork" button and is not subject to that push-time check, so syncing
+  # first makes those commits already-known and the entry push clean -- with
+  # the token's scopes exactly as they are.
+  sync-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync filmil/bazel-central-registry with upstream
+        env:
+          GH_TOKEN: ${{ secrets.BCR_PUBLISH_TOKEN }}
+        run: gh api -X POST repos/filmil/bazel-central-registry/merge-upstream -f branch=main
+
   publish:
+    needs: sync-fork
     uses: "bazel-contrib/publish-to-bcr/.github/workflows/publish.yaml@v0.2.2"
     with:
       tag_name: ${{ inputs.tag_name }}
