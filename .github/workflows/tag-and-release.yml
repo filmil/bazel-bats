@@ -1,10 +1,17 @@
 # When run:
-# * runs tests to ensure that released version works.
-# * tags a new release based on main top of tree.
-# * builds a source bundle and uploads it into the release
-# * builds binaries and uploads them into the release
+# * tags a new release based on main top of tree, when a commit asks for one.
+# * runs the tests, builds a source bundle, attests its provenance, and
+#   publishes all of it as a GitHub release.
 #
 # The workflow can be run manually, otherwise it runs once a week.
+#
+# The release itself is built by the reusable workflow from
+# bazel-contrib/.github. That workflow is not interchangeable with a local
+# equivalent: the Bazel Central Registry verifies the source archive
+# attestation with slsa-verifier against a hard-coded builder id, set in
+# tools/slsa.py of bazelbuild/bazel-central-registry, and that id names
+# release_ruleset.yaml. An attestation produced by any other workflow is
+# rejected by BCR presubmit.
 name: Tag and Release
 
 on:
@@ -15,24 +22,22 @@ on:
 jobs:
   tag:
     runs-on: ubuntu-latest
+    # The default GITHUB_TOKEN is read-only on repositories whose default
+    # workflow permission is read-only, and the tag push then fails with
+    # "Resource not accessible by integration" after the action has already
+    # printed the version it computed.
+    permissions:
+      contents: write
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
     steps:
-      - name: Setup bazel
-        uses: bazel-contrib/setup-bazel@0.15.0
-        with:
-          bazelisk-cache: true
-          disk-cache: ${{ github.workflow }}
-          repository-cache: true
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cache
-        uses: actions/cache@v4
+        uses: actions/checkout@v4
         with:
-          path: "~/.cache/bazel"
-          key: ${{ runner.os }}-bazel-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-bazel-
-      - name: "Test"
-        run: "bazel test --test_output=errors //..."
+          # The tag action analyses the commits since the previous tag. With
+          # the default shallow checkout it finds none, reports "Analysis of 0
+          # commits complete: no release", and emits an empty new_tag.
+          fetch-depth: 0
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
@@ -42,36 +47,23 @@ jobs:
           # Without this the action bumps the patch version on every run, even
           # when no commit landed since the last tag. The cron then released the
           # same tree again and again. `false` makes the action emit an empty
-          # `new_tag` when no commit asks for a release, and the guards below
-          # then skip the release and the publication.
+          # `new_tag` when no commit asks for a release, and the guard below
+          # then skips the release.
           default_bump: false
-      - name: Create a GitHub release
-        if: ${{ steps.tag_version.outputs.new_tag != '' }}
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          generateReleaseNotes: true
-      - name: Get release tag
-        if: ${{ steps.tag_version.outputs.new_tag != '' }}
-        id: get_version
-        run: echo "VERSION=${{ steps.tag_version.outputs.new_tag }}" >> $GITHUB_ENV
-      - name: Get repo name
-        if: ${{ steps.tag_version.outputs.new_tag != '' }}
-        id: get_repo_name
-        run: echo "REPO_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
-      - name: "Publish source archive"
-        if: ${{ steps.tag_version.outputs.new_tag != '' }}
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: 'zip'
-          filename: "${{ env.REPO_NAME }}-${{ env.VERSION }}.zip"
-          exclusions: '*.git* /*node_modules/* .editorconfig /bazel-*'
-      - name: "Upload source archive"
-        if: ${{ steps.tag_version.outputs.new_tag != '' }}
-        uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          allowUpdates: true
-          artifacts: "${{ env.REPO_NAME }}-${{ env.VERSION }}.zip"
+
+  # Runs the tests, builds bazel-bats-<tag>.zip through
+  # .github/workflows/release_prep.sh, attests the archive with
+  # actions/attest-build-provenance, and creates the GitHub release with the
+  # archive and its bazel-bats-<tag>.zip.intoto.jsonl attestation attached.
+  release:
+    needs: tag
+    if: ${{ needs.tag.outputs.new_tag != '' }}
+    permissions:
+      contents: write      # upload release files
+      id-token: write      # attest provenance
+      attestations: write  # attest provenance
+    uses: bazel-contrib/.github/.github/workflows/release_ruleset.yaml@v7.7.0
+    with:
+      tag_name: ${{ needs.tag.outputs.new_tag }}
+      release_files: bazel-bats-${{ needs.tag.outputs.new_tag }}.zip
+      prerelease: false
