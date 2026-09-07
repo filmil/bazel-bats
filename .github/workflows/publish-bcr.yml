@@ -26,17 +26,46 @@ jobs:
   #       create or update workflow `.github/workflows/dismiss_approvals.yml`
   #       without `workflow` scope)
   #
-  # (run 33282606259, publishing v0.38.41). The merge-upstream API is the
-  # "Sync fork" button and is not subject to that push-time check, so syncing
-  # first makes those commits already-known and the entry push clean -- with
-  # the token's scopes exactly as they are.
+  # (run 33282606259, publishing v0.38.41). Syncing first makes those commits
+  # already-known, so the entry push is clean.
+  #
+  # An earlier version of this comment claimed the merge-upstream API was not
+  # subject to that check. That is wrong. Run 34162805144, publishing
+  # v0.38.42, failed here with the same message and HTTP 422: merge-upstream
+  # writes the upstream workflow files into the fork and is refused for the
+  # same reason a push is. Syncing only ever worked because the fork happened
+  # to be current on the workflow files.
+  #
+  # The fix is the token, not the step. BCR_PUBLISH_TOKEN needs the `workflow`
+  # scope alongside `repo`. Until it has it, this job fails whenever upstream
+  # BCR has touched a workflow file since the last successful sync, and the
+  # fork has to be synced by hand over SSH, which is not subject to PAT scope
+  # checks:
+  #
+  #     git push ssh://git@github.com/filmil/bazel-central-registry.git \
+  #       FETCH_HEAD:refs/heads/main
   sync-fork:
     runs-on: ubuntu-latest
     steps:
       - name: Sync filmil/bazel-central-registry with upstream
         env:
           GH_TOKEN: ${{ secrets.BCR_PUBLISH_TOKEN }}
-        run: gh api -X POST repos/filmil/bazel-central-registry/merge-upstream -f branch=main
+        run: |
+          set -o errexit -o nounset -o pipefail
+          if ! out="$(gh api -X POST \
+              repos/filmil/bazel-central-registry/merge-upstream \
+              -f branch=main 2>&1)"; then
+            echo "${out}"
+            if grep -q 'without .workflow. scope' <<<"${out}"; then
+              echo "::error::BCR_PUBLISH_TOKEN is missing the 'workflow' scope."
+              echo "::error::Upstream BCR changed a file under .github/workflows/,"
+              echo "::error::so syncing the fork now needs that scope. Re-mint the"
+              echo "::error::PAT with 'repo' and 'workflow', then:"
+              echo "::error::  gh secret set BCR_PUBLISH_TOKEN -R filmil/bazel-bats"
+            fi
+            exit 1
+          fi
+          echo "${out}"
 
   publish:
     needs: sync-fork
