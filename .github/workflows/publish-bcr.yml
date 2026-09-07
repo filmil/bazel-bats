@@ -13,6 +13,11 @@ on:
         description: "Tag to publish"
         required: true
         type: string
+      check_token_only:
+        description: "Check BCR_PUBLISH_TOKEN and sync the fork, publish nothing"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   # Sync the BCR fork's main with upstream before anything is pushed to it.
@@ -47,6 +52,42 @@ jobs:
   sync-fork:
     runs-on: ubuntu-latest
     steps:
+      # Read the token's own scopes before using it. A missing `workflow`
+      # scope only shows up later, as an HTTP 422 on whichever step first
+      # carries an upstream workflow file, and it shows up on some runs and
+      # not others depending on what upstream touched. Checking here fails
+      # the same way every time, before a publish is attempted.
+      #
+      # This prints scope names, never the token. An empty scope list means a
+      # fine-grained PAT, which publish-to-bcr does not support: it cannot
+      # open a pull request against a public repository.
+      - name: Check the token scopes
+        env:
+          GH_TOKEN: ${{ secrets.BCR_PUBLISH_TOKEN }}
+        run: |
+          set -o errexit -o nounset -o pipefail
+          scopes="$(gh api -i user 2>/dev/null \
+            | tr -d '\r' \
+            | sed -n 's/^[Xx]-[Oo][Aa]uth-[Ss]copes: *//p')"
+          echo "BCR_PUBLISH_TOKEN scopes: ${scopes:-<none>}"
+          if [[ -z "${scopes}" ]]; then
+            echo "::error::BCR_PUBLISH_TOKEN reports no OAuth scopes."
+            echo "::error::That means a fine-grained PAT, which cannot open a"
+            echo "::error::pull request against a public repository. Use a"
+            echo "::error::classic PAT with 'repo' and 'workflow'."
+            exit 1
+          fi
+          for want in repo workflow; do
+            if ! grep -qw "${want}" <<<"${scopes}"; then
+              echo "::error::BCR_PUBLISH_TOKEN is missing the '${want}' scope."
+              echo "::error::It has: ${scopes}"
+              echo "::error::Re-mint a classic PAT with 'repo' and 'workflow',"
+              echo "::error::then: gh secret set BCR_PUBLISH_TOKEN -R filmil/bazel-bats"
+              exit 1
+            fi
+          done
+          echo "Both 'repo' and 'workflow' are present."
+
       - name: Sync filmil/bazel-central-registry with upstream
         env:
           GH_TOKEN: ${{ secrets.BCR_PUBLISH_TOKEN }}
@@ -69,6 +110,7 @@ jobs:
 
   publish:
     needs: sync-fork
+    if: ${{ inputs.check_token_only != true }}
     uses: "bazel-contrib/publish-to-bcr/.github/workflows/publish.yaml@v0.2.2"
     with:
       tag_name: ${{ inputs.tag_name }}
