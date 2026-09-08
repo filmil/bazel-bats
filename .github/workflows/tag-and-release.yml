@@ -68,13 +68,29 @@ jobs:
       release_files: bazel-bats-${{ needs.tag.outputs.new_tag }}.zip
       prerelease: false
 
+  # Publishes to my own registry. This repository released without ever
+  # calling it, so filmil/bazel-registry stopped at bazel_bats 0.38.23 while
+  # releases reached 0.38.42. Every other module that publishes to both
+  # registries calls this job here.
+  #
+  # `secrets: inherit`, not an explicit mapping: publish.yml does not declare
+  # BCR_PUBLISH_TOKEN under `workflow_call`, and naming an undeclared secret
+  # is a workflow validation error.
+  publish:
+    needs: [tag, release]
+    if: ${{ needs.tag.outputs.new_tag != '' }}
+    uses: ./.github/workflows/publish.yml
+    with:
+      tag_name: ${{ needs.tag.outputs.new_tag }}
+    secrets: inherit
+
   # BCR is the only publish that attests, see the note in publish.yml. This
   # job still runs after that one rather than beside it, so that the order in
   # which the two registries see the release stays fixed, and so that turning
   # `attest` back on in publish.yml cannot silently produce two attesting
   # publishes racing to overwrite the same two release assets.
   publish-bcr:
-    needs: [tag, release]
+    needs: [tag, publish]
     if: ${{ needs.tag.outputs.new_tag != '' }}
     uses: ./.github/workflows/publish-bcr.yml
     with:
